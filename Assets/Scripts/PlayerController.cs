@@ -20,12 +20,12 @@ public class PlayerController : MonoBehaviour {
 
 	private void Update() {
 		float moveHorizontal = Input.GetAxisRaw("Horizontal");
-		if(GameManager.singleton.m_isHiding == true)
+		if(GameManager.singleton.m_DisableControls == true)
 			moveHorizontal = 0;
 		Vector2 movement = new Vector2(moveHorizontal * m_MovementSpeed, m_RigidBody.velocity.y);
 		m_RigidBody.velocity = movement;
 
-		if(Input.GetKeyDown(KeyCode.Space) && m_isGrounded == true && GameManager.singleton.m_isHiding == false)
+		if(Input.GetKeyDown(KeyCode.Space) && m_isGrounded == true && GameManager.singleton.m_DisableControls == false)
 			m_RigidBody.velocity = new Vector2(movement.x, m_JumpForce);
 
 		if(moveHorizontal < 0)

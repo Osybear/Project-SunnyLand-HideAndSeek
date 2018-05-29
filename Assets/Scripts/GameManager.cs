@@ -7,11 +7,13 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
 
 	public static GameManager singleton;
+	public EagleManager m_EagleManager;
 
 	public int m_PlayerGems = 0;
 	public float m_TwinkleRate;
 
 	public bool m_isDead = false;
+	public bool m_DisableControls = false;
 	public bool m_isHiding = false;
 	public bool m_hasStarted = false;
 
@@ -20,8 +22,6 @@ public class GameManager : MonoBehaviour {
 	public GameObject m_Player;
 
 	private Coroutine m_TextTwinkle;
-
-	public List<GameObject> Bushes;
 
 	private void Awake() {
 		if(singleton != null)
@@ -72,6 +72,7 @@ public class GameManager : MonoBehaviour {
 		m_PressEnter.text = "Hide!" + "\n1";
 		yield return new WaitForSeconds(1);
 		m_PressEnter.text = "";
-		m_isHiding = true;
+		m_DisableControls = true;
+		StartCoroutine(m_EagleManager.Patrol());
 	}
 }
