@@ -744,7 +744,7 @@ SortingGroup:
   m_Enabled: 1
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
 --- !u!1 &1034493656
 GameObject:
   m_ObjectHideFlags: 0
@@ -2885,13 +2885,14 @@ MonoBehaviour:
   m_EagleManager: {fileID: 1861897810}
   m_PlayerGems: 0
   m_TwinkleRate: 0.8
-  m_isDead: 0
+  m_Killed: 0
   m_DisableControls: 0
-  m_isHiding: 0
-  m_hasStarted: 0
+  m_Hidden: 0
+  m_GameStarted: 0
   m_GemCount: {fileID: 0}
   m_PressEnter: {fileID: 1561794910}
   m_Player: {fileID: 1137565321}
+  m_HiddenBush: {fileID: 0}
 --- !u!4 &1861897809
 Transform:
   m_ObjectHideFlags: 0
@@ -2928,12 +2929,12 @@ MonoBehaviour:
   - {fileID: 1617716517}
   - {fileID: 155763944}
   - {fileID: 2080844299}
-  m_HiddenBush: {fileID: 0}
   m_SpotOffScreen: {fileID: 1690776755}
   m_Eagle: {fileID: 1164823102}
   m_Renderer: {fileID: 1164823101}
   m_Animator: {fileID: 1164823100}
-  m_Speed: 5
+  m_Player: {fileID: 1137565321}
+  m_Speed: 25
   m_RandomIndex: 0
 --- !u!1 &1871798476
 GameObject:
@@ -3005,7 +3006,12 @@ Prefab:
     - target: {fileID: 212103046519573666, guid: 26881b28301a25547a918bba749ba1ac,
         type: 2}
       propertyPath: m_SortingOrder
-      value: 2
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 50932843829823308, guid: 26881b28301a25547a918bba749ba1ac,
+        type: 2}
+      propertyPath: m_Simulated
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 26881b28301a25547a918bba749ba1ac, type: 2}

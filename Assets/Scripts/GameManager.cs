@@ -12,14 +12,15 @@ public class GameManager : MonoBehaviour {
 	public int m_PlayerGems = 0;
 	public float m_TwinkleRate;
 
-	public bool m_isDead = false;
+	public bool m_Killed = false;
 	public bool m_DisableControls = false;
-	public bool m_isHiding = false;
-	public bool m_hasStarted = false;
+	public bool m_Hidden = false;
+	public bool m_GameStarted = false;
 
 	public Text m_GemCount;
 	public Text m_PressEnter;
 	public GameObject m_Player;
+	public GameObject m_HiddenBush;
 
 	private Coroutine m_TextTwinkle;
 
@@ -37,11 +38,11 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void Update() {
-		if(m_hasStarted == false && Input.GetKeyDown(KeyCode.Return)){
-			m_hasStarted = true;
+		if(m_GameStarted == false && Input.GetKeyDown(KeyCode.Return)){
+			m_GameStarted = true;
 			StopCoroutine(m_TextTwinkle);
 			m_PressEnter.gameObject.SetActive(true);
-			StartCoroutine(HideText());
+			StartCoroutine(Hide());
 		}
 	}
 
@@ -64,7 +65,8 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	private IEnumerator HideText(){
+	public IEnumerator Hide(){
+		m_DisableControls = false;
 		m_PressEnter.text = "Hide!" + "\n3";
 		yield return new WaitForSeconds(1);
 		m_PressEnter.text = "Hide!" + "\n2";
@@ -73,6 +75,10 @@ public class GameManager : MonoBehaviour {
 		yield return new WaitForSeconds(1);
 		m_PressEnter.text = "";
 		m_DisableControls = true;
-		StartCoroutine(m_EagleManager.Patrol());
+		
+		if(m_HiddenBush != null)
+			m_Player.transform.position = m_HiddenBush.transform.position;
+
+		StartCoroutine(m_EagleManager.ChooseRandom());
 	}
 }

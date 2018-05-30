@@ -5,7 +5,7 @@ using UnityEngine;
 public class Gem : MonoBehaviour {
 
 	private void Update() {
-		if(GameManager.singleton.m_isDead){
+		if(GameManager.singleton.m_Killed){
 			GetComponent<Collider2D>().enabled = false;
 			GetComponent<Animator>().SetTrigger("Collided");
 		}

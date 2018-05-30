@@ -6,22 +6,18 @@ public class EagleManager : MonoBehaviour {
 
 	public List<Transform> m_Spots;
 	public List<GameObject> m_Bushes;
-	public GameObject m_HiddenBush;
 	public Transform m_SpotOffScreen;
 	public Transform m_Eagle;
 	public SpriteRenderer m_Renderer;
 	public Animator m_Animator;
+	public GameObject m_Player;
 
 	public float m_Speed;
 	public int m_RandomIndex;
 
-	private void Start() {
-		//StartCoroutine(Patrol());
-	}
+	public IEnumerator ChooseRandom(){
 
-	public IEnumerator Patrol(){
 		m_RandomIndex = Random.Range(0,5);
-
 		for(int i = 0; i < 2; i++){
 			while(m_Eagle.position != m_Spots[0].position){
 				float step = m_Speed * Time.deltaTime;
@@ -54,13 +50,29 @@ public class EagleManager : MonoBehaviour {
 
 		m_Animator.SetBool("Diving", true);
 
-		while(m_Eagle.position != m_Bushes[m_RandomIndex].transform.position){
+		Vector3 offset = new Vector3(0, .88f, 0);
+		while(m_Eagle.position != m_Bushes[m_RandomIndex].transform.position + offset){
 			float step = m_Speed * 2 * Time.deltaTime;
-			m_Eagle.position = Vector3.MoveTowards(m_Eagle.position, m_Bushes[m_RandomIndex].transform.position, step);
+			m_Eagle.position = Vector3.MoveTowards(m_Eagle.position, m_Bushes[m_RandomIndex].transform.position + offset, step);
 			yield return new WaitForEndOfFrame();
 		}
 
 		m_Animator.SetBool("Diving", false);
+
+		if(GameManager.singleton.m_HiddenBush == m_Bushes[m_RandomIndex])
+		{
+			m_Player.transform.SetParent(m_Eagle.transform, true);
+			m_Player.GetComponent<Rigidbody2D>().gravityScale = 0;
+			m_Player.GetComponent<Animator>().SetBool("Killed" , true);
+			GameManager.singleton.m_Killed = true;
+
+			while(m_Eagle.position != m_Spots[m_RandomIndex].position){
+				float step = m_Speed * Time.deltaTime *.5f;
+				m_Eagle.position = Vector3.MoveTowards(m_Eagle.position, m_Spots[m_RandomIndex].position, step);
+				yield return new WaitForEndOfFrame();
+			}
+			yield return null;
+		}
 
 		yield return new WaitForSeconds(1f);
 
@@ -70,7 +82,16 @@ public class EagleManager : MonoBehaviour {
 			yield return new WaitForEndOfFrame();
 		}
 
-		if(GameManager.singleton.m_isHiding == false)
+		yield return new WaitForSeconds(1f);
+
+		m_Renderer.flipX = true;
+		while(m_Eagle.position != m_SpotOffScreen.position){
+			float step = m_Speed * Time.deltaTime *.5f;
+			m_Eagle.position = Vector3.MoveTowards(m_Eagle.position, m_SpotOffScreen.position, step);
+			yield return new WaitForEndOfFrame();
+		}
+		m_Renderer.flipX = false;
+		StartCoroutine(GameManager.singleton.Hide());
 		yield return null;
 	}
 }
