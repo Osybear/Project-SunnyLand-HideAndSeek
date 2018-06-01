@@ -71,7 +71,7 @@ public class EagleManager : MonoBehaviour {
 				m_Eagle.position = Vector3.MoveTowards(m_Eagle.position, m_Spots[m_RandomIndex].position, step);
 				yield return new WaitForEndOfFrame();
 			}
-			yield return null;
+			yield break;
 		}
 
 		yield return new WaitForSeconds(1f);
@@ -92,6 +92,42 @@ public class EagleManager : MonoBehaviour {
 		}
 		m_Renderer.flipX = false;
 		StartCoroutine(GameManager.singleton.Hide());
+		yield return null;
+	}
+
+	public IEnumerator GetUnhiddenPlayer(){
+		m_Player.GetComponent<Animator>().SetBool("Killed" , true);
+		Vector3 PlayerPos = m_Player.transform.position;
+		Vector3 EaglePos = m_Eagle.transform.position;
+		Vector3 PosAbovePlayer = new Vector3(PlayerPos.x, EaglePos.y, 0);
+
+		while(m_Eagle.position != PosAbovePlayer){
+			float step = m_Speed * Time.deltaTime;
+			m_Eagle.position = Vector3.MoveTowards(m_Eagle.position, PosAbovePlayer, step);
+			yield return new WaitForEndOfFrame();
+		}
+
+		m_Animator.SetBool("Diving", true);
+
+		Vector3 offset = new Vector3(0, .88f, 0);
+		while(m_Eagle.position != PlayerPos + offset){
+			float step = m_Speed * 2 * Time.deltaTime;
+			m_Eagle.position = Vector3.MoveTowards(m_Eagle.position, PlayerPos + offset, step);
+			yield return new WaitForEndOfFrame();
+		}
+
+		m_Animator.SetBool("Diving", false);
+
+		m_Player.transform.SetParent(m_Eagle.transform, true);
+		m_Player.GetComponent<Rigidbody2D>().gravityScale = 0;
+		GameManager.singleton.m_Killed = true;
+
+		while(m_Eagle.position != PosAbovePlayer){
+			float step = m_Speed * Time.deltaTime;
+			m_Eagle.position = Vector3.MoveTowards(m_Eagle.position, PosAbovePlayer, step);
+			yield return new WaitForEndOfFrame();
+		}
+
 		yield return null;
 	}
 }

@@ -79,6 +79,10 @@ public class GameManager : MonoBehaviour {
 		if(m_HiddenBush != null)
 			m_Player.transform.position = m_HiddenBush.transform.position;
 
-		StartCoroutine(m_EagleManager.ChooseRandom());
+		if(m_Hidden == false){
+			StartCoroutine(m_EagleManager.GetUnhiddenPlayer());
+		}else
+			StartCoroutine(m_EagleManager.ChooseRandom());
 	}
+
 }

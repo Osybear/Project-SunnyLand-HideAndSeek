@@ -1328,7 +1328,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
@@ -2934,7 +2934,7 @@ MonoBehaviour:
   m_Renderer: {fileID: 1164823101}
   m_Animator: {fileID: 1164823100}
   m_Player: {fileID: 1137565321}
-  m_Speed: 25
+  m_Speed: 5
   m_RandomIndex: 0
 --- !u!1 &1871798476
 GameObject:
