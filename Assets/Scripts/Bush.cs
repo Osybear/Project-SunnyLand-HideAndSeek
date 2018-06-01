@@ -26,4 +26,7 @@ public class Bush : MonoBehaviour {
 		}
 	}
 
+	public void Deactivate(){
+		Destroy(gameObject);
+	}
 }

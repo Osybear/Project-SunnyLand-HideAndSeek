@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EagleManager : MonoBehaviour {
 
-	public List<Transform> m_Spots;
 	public List<GameObject> m_Bushes;
 	public Transform m_SpotOffScreen;
 	public Transform m_Eagle;
@@ -16,27 +15,31 @@ public class EagleManager : MonoBehaviour {
 	public int m_RandomIndex;
 
 	public IEnumerator ChooseRandom(){
+		m_RandomIndex = Random.Range(0, m_Bushes.Count);
+		Vector3 eagleoffsetY = new Vector3(0, 5, 0);
 
-		m_RandomIndex = Random.Range(0,5);
 		for(int i = 0; i < 2; i++){
-			while(m_Eagle.position != m_Spots[0].position){
+			while(m_Eagle.position != m_Bushes[0].transform.position + eagleoffsetY){
+
 				float step = m_Speed * Time.deltaTime;
-				m_Eagle.position = Vector3.MoveTowards(m_Eagle.position, m_Spots[0].position, step);
+				m_Eagle.position = Vector3.MoveTowards(m_Eagle.position, m_Bushes[0].transform.position + eagleoffsetY, step);
 				yield return new WaitForEndOfFrame();
 			}
+
 			m_Renderer.flipX = true;
 
-			while(m_Eagle.position != m_Spots[4].position){
+			while(m_Eagle.position != m_Bushes[m_Bushes.Count - 1].transform.position + eagleoffsetY){
 				float step = m_Speed * Time.deltaTime;
-				m_Eagle.position = Vector3.MoveTowards(m_Eagle.position, m_Spots[4].position, step);
+				m_Eagle.position = Vector3.MoveTowards(m_Eagle.position, m_Bushes[m_Bushes.Count - 1].transform.position + eagleoffsetY, step);
 				yield return new WaitForEndOfFrame();
 			}
+
 			m_Renderer.flipX = false;
 		}
 
-		while(m_Eagle.position != m_Spots[m_RandomIndex].position){
+		while(m_Eagle.position != m_Bushes[m_RandomIndex].transform.position + eagleoffsetY){
 			float step = m_Speed * Time.deltaTime;
-			m_Eagle.position = Vector3.MoveTowards(m_Eagle.position, m_Spots[m_RandomIndex].position, step);
+			m_Eagle.position = Vector3.MoveTowards(m_Eagle.position, m_Bushes[m_RandomIndex].transform.position + eagleoffsetY, step);
 			yield return new WaitForEndOfFrame();
 		}
 
@@ -66,9 +69,9 @@ public class EagleManager : MonoBehaviour {
 			m_Player.GetComponent<Animator>().SetBool("Killed" , true);
 			GameManager.singleton.m_Killed = true;
 
-			while(m_Eagle.position != m_Spots[m_RandomIndex].position){
+			while(m_Eagle.position != m_Bushes[m_RandomIndex].transform.position + eagleoffsetY){
 				float step = m_Speed * Time.deltaTime *.5f;
-				m_Eagle.position = Vector3.MoveTowards(m_Eagle.position, m_Spots[m_RandomIndex].position, step);
+				m_Eagle.position = Vector3.MoveTowards(m_Eagle.position, m_Bushes[m_RandomIndex].transform.position + eagleoffsetY, step);
 				yield return new WaitForEndOfFrame();
 			}
 			yield break;
@@ -76,9 +79,9 @@ public class EagleManager : MonoBehaviour {
 
 		yield return new WaitForSeconds(1f);
 
-		while(m_Eagle.position != m_Spots[m_RandomIndex].position){
+		while(m_Eagle.position != m_Bushes[m_RandomIndex].transform.position + eagleoffsetY){
 			float step = m_Speed * Time.deltaTime *.5f;
-			m_Eagle.position = Vector3.MoveTowards(m_Eagle.position, m_Spots[m_RandomIndex].position, step);
+			m_Eagle.position = Vector3.MoveTowards(m_Eagle.position, m_Bushes[m_RandomIndex].transform.position + eagleoffsetY, step);
 			yield return new WaitForEndOfFrame();
 		}
 
@@ -86,11 +89,15 @@ public class EagleManager : MonoBehaviour {
 
 		m_Renderer.flipX = true;
 		while(m_Eagle.position != m_SpotOffScreen.position){
-			float step = m_Speed * Time.deltaTime *.5f;
+			float step = m_Speed * Time.deltaTime;
 			m_Eagle.position = Vector3.MoveTowards(m_Eagle.position, m_SpotOffScreen.position, step);
 			yield return new WaitForEndOfFrame();
 		}
 		m_Renderer.flipX = false;
+
+		if(m_Bushes.Count > 2)
+			RemoveRandomBush();
+
 		StartCoroutine(GameManager.singleton.Hide());
 		yield return null;
 	}
@@ -129,5 +136,15 @@ public class EagleManager : MonoBehaviour {
 		}
 
 		yield return null;
+	}
+
+	public void RemoveRandomBush(){
+		float num = Random.value;
+		int randomindex = Random.Range(0, m_Bushes.Count);
+
+		if(num > .5f){
+			m_Bushes[randomindex].GetComponent<Animator>().SetTrigger("Remove");
+			m_Bushes.RemoveAt(randomindex);
+		}
 	}
 }

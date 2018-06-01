@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
 	public EagleManager m_EagleManager;
 
 	public int m_PlayerGems = 0;
+	public int m_Rounds = 0;
 	public float m_TwinkleRate;
 
 	public bool m_Killed = false;
@@ -66,6 +67,8 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public IEnumerator Hide(){
+		m_Rounds++;
+
 		m_DisableControls = false;
 		m_PressEnter.text = "Hide!" + "\n3";
 		yield return new WaitForSeconds(1);
@@ -84,5 +87,4 @@ public class GameManager : MonoBehaviour {
 		}else
 			StartCoroutine(m_EagleManager.ChooseRandom());
 	}
-
 }
