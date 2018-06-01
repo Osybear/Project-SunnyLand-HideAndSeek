@@ -51,6 +51,28 @@ public class EagleManager : MonoBehaviour {
 		yield return new WaitForSeconds(.5f);
 		m_Renderer.flipX = false;
 
+		float num = Random.value;
+
+		if(num > .75)
+		{
+			Debug.Log("Jebaited");
+			int[] directions = new int[] {-1,1};
+
+			int direction = directions[Random.Range(0,2)];
+			m_RandomIndex = Random.Range(0, m_Bushes.Count);
+
+			if(direction == -1)
+				m_Renderer.flipX = false;
+			else
+				m_Renderer.flipX = true;
+
+			while(m_Eagle.position != m_Bushes[m_RandomIndex].transform.position + eagleoffsetY){
+				float step = m_Speed * Time.deltaTime;
+				m_Eagle.position = Vector3.MoveTowards(m_Eagle.position, m_Bushes[m_RandomIndex].transform.position + eagleoffsetY, step);
+				yield return new WaitForEndOfFrame();
+			}
+		}
+
 		m_Animator.SetBool("Diving", true);
 
 		Vector3 offset = new Vector3(0, .88f, 0);
