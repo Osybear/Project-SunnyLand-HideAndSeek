@@ -2653,9 +2653,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Move with arrow keys
-
-    Jump with space bar'
+  m_Text: "Move with arrow keys. \nJump with space bar"
 --- !u!222 &1440470255
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3273,7 +3271,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 10}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1697580713
@@ -3310,18 +3308,20 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: a0bd03334dce8304983fd15cfa6a967d, type: 3}
-    m_FontSize: 50
+    m_FontSize: 44
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 250
-    m_Alignment: 0
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Code by Osybear, Art by Ansimuz, fonts by Somepx '
+  m_Text: 'Code by Osybear, Art by Ansimuz
+
+    Fonts by Somepx, Audio by Shan Richardson'
 --- !u!222 &1697580715
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3738,7 +3738,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 85}
+  m_AnchoredPosition: {x: 0, y: 104}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &2018213202
@@ -3976,7 +3976,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Hide in bushes so that the eagle does not find you
+  m_Text: Hide in bushes to avoid the eagle catching you
 --- !u!222 &2135377893
 CanvasRenderer:
   m_ObjectHideFlags: 0
