@@ -96,6 +96,8 @@ public class EagleManager : MonoBehaviour {
 				m_Eagle.position = Vector3.MoveTowards(m_Eagle.position, m_Bushes[m_RandomIndex].transform.position + eagleoffsetY, step);
 				yield return new WaitForEndOfFrame();
 			}
+			
+			GameManager.singleton.StopGame();
 			yield break;
 		}
 

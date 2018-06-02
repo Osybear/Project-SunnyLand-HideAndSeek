@@ -38,7 +38,7 @@ public class MenuManager : MonoBehaviour {
 				m_Info.SetActive(true);
 			}
 			if(m_EnterCount == 1){
-				SceneManager.LoadScene("Level");
+				SceneManager.LoadScene("HideAndSeek");
 			}
 			m_EnterCount++;
 		}

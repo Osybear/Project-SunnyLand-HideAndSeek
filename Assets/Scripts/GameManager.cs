@@ -42,8 +42,11 @@ public class GameManager : MonoBehaviour {
 		if(m_GameStarted == false && Input.GetKeyDown(KeyCode.Return)){
 			m_GameStarted = true;
 			StopCoroutine(m_TextTwinkle);
-			m_PressEnter.gameObject.SetActive(true);
 			StartCoroutine(Hide());
+		}
+
+		if(m_Killed == true && Input.GetKeyDown(KeyCode.Return)){
+			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}
 	}
 
@@ -58,11 +61,13 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public IEnumerator TextTwinkle(){
+		string CurrentText = m_PressEnter.text;
+
 		while(true){
 			yield return new WaitForSeconds(m_TwinkleRate);
-			m_PressEnter.gameObject.SetActive(false);
+			m_PressEnter.text = null;
 			yield return new WaitForSeconds(m_TwinkleRate);
-			m_PressEnter.gameObject.SetActive(true);
+			m_PressEnter.text = CurrentText;
 		}
 	}
 
@@ -86,5 +91,12 @@ public class GameManager : MonoBehaviour {
 			StartCoroutine(m_EagleManager.GetUnhiddenPlayer());
 		}else
 			StartCoroutine(m_EagleManager.ChooseRandom());
+	}
+
+	public void StopGame(){
+		if(m_Rounds == 1)
+			m_PressEnter.text = "You Survived " + m_Rounds + " Round\nPress Enter To Restart";
+		else
+			m_PressEnter.text = "You Survived " + m_Rounds + " Rounds\nPress Enter To Restart";
 	}
 }
