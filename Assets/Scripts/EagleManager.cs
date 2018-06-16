@@ -15,6 +15,7 @@ public class EagleManager : MonoBehaviour {
 	public int m_RandomIndex;
 
 	public IEnumerator ChooseRandom(){
+		SoundManager.singleton.PlayAudio("BirdFlapLoop");
 		m_RandomIndex = Random.Range(0, m_Bushes.Count);
 		Vector3 eagleoffsetY = new Vector3(0, 5, 0);
 
@@ -55,16 +56,13 @@ public class EagleManager : MonoBehaviour {
 
 		if(num > .75)
 		{
-			Debug.Log("Jebaited");
-			int[] directions = new int[] {-1,1};
-
-			int direction = directions[Random.Range(0,2)];
+			int prevIndex = m_RandomIndex;
 			m_RandomIndex = Random.Range(0, m_Bushes.Count);
 
-			if(direction == -1)
-				m_Renderer.flipX = false;
-			else
+			if(prevIndex < m_RandomIndex)
 				m_Renderer.flipX = true;
+			else
+				m_Renderer.flipX = false;
 
 			while(m_Eagle.position != m_Bushes[m_RandomIndex].transform.position + eagleoffsetY){
 				float step = m_Speed * Time.deltaTime;
@@ -73,6 +71,9 @@ public class EagleManager : MonoBehaviour {
 			}
 		}
 
+		SoundManager.singleton.StopAudio("BirdFlapLoop");
+		SoundManager.singleton.PlayAudio("BirdSwoop");
+		SoundManager.singleton.PlayAudio("BirdAttackCaw");
 		m_Animator.SetBool("Diving", true);
 
 		Vector3 offset = new Vector3(0, .88f, 0);
@@ -82,10 +83,12 @@ public class EagleManager : MonoBehaviour {
 			yield return new WaitForEndOfFrame();
 		}
 
+		SoundManager.singleton.PlayAudio("BirdFlapLoop");
 		m_Animator.SetBool("Diving", false);
 
 		if(GameManager.singleton.m_HiddenBush == m_Bushes[m_RandomIndex])
 		{
+			SoundManager.singleton.PlayAudio("BirdHitPlayer");
 			m_Player.transform.SetParent(m_Eagle.transform, true);
 			m_Player.GetComponent<Rigidbody2D>().gravityScale = 0;
 			m_Player.GetComponent<Animator>().SetBool("Killed" , true);
@@ -118,15 +121,17 @@ public class EagleManager : MonoBehaviour {
 			yield return new WaitForEndOfFrame();
 		}
 		m_Renderer.flipX = false;
-
+		SoundManager.singleton.StopAudio("BirdFlapLoop");
 		if(m_Bushes.Count > 2)
 			RemoveRandomBush();
 
+		GameManager.singleton.m_Rounds++;
 		StartCoroutine(GameManager.singleton.Hide());
 		yield return null;
 	}
 
 	public IEnumerator GetUnhiddenPlayer(){
+		SoundManager.singleton.PlayAudio("BirdFlapLoop");
 		m_Player.GetComponent<Animator>().SetBool("Killed" , true);
 		Vector3 PlayerPos = m_Player.transform.position;
 		Vector3 EaglePos = m_Eagle.transform.position;
@@ -138,6 +143,9 @@ public class EagleManager : MonoBehaviour {
 			yield return new WaitForEndOfFrame();
 		}
 
+		SoundManager.singleton.StopAudio("BirdFlapLoop");
+		SoundManager.singleton.PlayAudio("BirdSwoop");
+		SoundManager.singleton.PlayAudio("BirdAttackCaw");
 		m_Animator.SetBool("Diving", true);
 
 		Vector3 offset = new Vector3(0, .88f, 0);
@@ -147,8 +155,10 @@ public class EagleManager : MonoBehaviour {
 			yield return new WaitForEndOfFrame();
 		}
 
+		SoundManager.singleton.PlayAudio("BirdHitPlayer");
+		SoundManager.singleton.PlayAudio("BirdFlapLoop");
 		m_Animator.SetBool("Diving", false);
-
+		
 		m_Player.transform.SetParent(m_Eagle.transform, true);
 		m_Player.GetComponent<Rigidbody2D>().gravityScale = 0;
 		GameManager.singleton.m_Killed = true;
@@ -159,6 +169,7 @@ public class EagleManager : MonoBehaviour {
 			yield return new WaitForEndOfFrame();
 		}
 
+		GameManager.singleton.StopGame();
 		yield return null;
 	}
 

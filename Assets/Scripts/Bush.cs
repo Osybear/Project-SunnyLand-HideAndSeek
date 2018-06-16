@@ -15,6 +15,7 @@ public class Bush : MonoBehaviour {
 			m_Renderer.color = new Color(255, 255, 255, .5f);
 			GameManager.singleton.m_HiddenBush = gameObject;
 			GameManager.singleton.m_Hidden = true;
+			SoundManager.singleton.PlayAudio("EnterBush");
 		}
 	}
 
@@ -23,6 +24,7 @@ public class Bush : MonoBehaviour {
 			m_Renderer.color = new Color(255, 255, 255, 1);
 			GameManager.singleton.m_HiddenBush = null;
 			GameManager.singleton.m_Hidden = false;
+			SoundManager.singleton.PlayAudio("ExitBush");
 		}
 	}
 

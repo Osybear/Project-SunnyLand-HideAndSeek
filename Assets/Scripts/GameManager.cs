@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour {
 	private void Update() {
 		if(m_GameStarted == false && Input.GetKeyDown(KeyCode.Return)){
 			m_GameStarted = true;
+			SoundManager.singleton.PlayAudio("MusicLoop");
 			StopCoroutine(m_TextTwinkle);
 			StartCoroutine(Hide());
 		}
@@ -72,8 +73,6 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public IEnumerator Hide(){
-		m_Rounds++;
-
 		m_DisableControls = false;
 		m_PressEnter.text = "Hide!" + "\n3";
 		yield return new WaitForSeconds(1);
@@ -98,5 +97,7 @@ public class GameManager : MonoBehaviour {
 			m_PressEnter.text = "You Survived " + m_Rounds + " Round\nPress Enter To Restart";
 		else
 			m_PressEnter.text = "You Survived " + m_Rounds + " Rounds\nPress Enter To Restart";
+
+		SoundManager.singleton.StopAudio("MusicLoop");
 	}
 }
