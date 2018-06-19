@@ -174,12 +174,8 @@ public class EagleManager : MonoBehaviour {
 	}
 
 	public void RemoveRandomBush(){
-		float num = Random.value;
 		int randomindex = Random.Range(0, m_Bushes.Count);
-
-		if(num > .5f){
-			m_Bushes[randomindex].GetComponent<Animator>().SetTrigger("Remove");
-			m_Bushes.RemoveAt(randomindex);
-		}
+		m_Bushes[randomindex].GetComponent<Animator>().SetTrigger("Remove");
+		m_Bushes.RemoveAt(randomindex);
 	}
 }
